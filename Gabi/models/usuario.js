@@ -2,9 +2,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize");
 
-const Usuario = sequelize.define(
-  "Usuarios",
-  {
+const Usuario = sequelize.define("Usuarios", {
     //define as informações da tabela colunas
     idUsuarios: {
       type: Sequelize.INTEGER,
@@ -21,7 +19,7 @@ const Usuario = sequelize.define(
     bairro: Sequelize.STRING,
     cidade: Sequelize.STRING,
     estado: Sequelize.STRING,
-    imagem: Sequelize.STRING,
+    foto: Sequelize.STRING,
     Tipos_Usuarios_idTipos_Usuarios: Sequelize.NUMBER,
   },
   //precisa disso pq nao tem as colunas createdAt e updatedAt no bd timestamps: false // Adiciona colunas createdAt e updatedAt automaticamente

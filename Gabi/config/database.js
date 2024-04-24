@@ -3,7 +3,7 @@ module.exports = {
   development: {
     username: process.env.DB_USER || "root",
     //username: 'root',
-    password: "senaisp",
+    password: "root",
     // Senha do banco de dados
     database: "carometro",
     // Nome do banco de dados
