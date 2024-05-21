@@ -1,4 +1,5 @@
 const Usuario = require("../models/usuario");
+const UsuariosTurmas = require('../models/usuario_turmas');
 
 exports.getAll = async (req, res) => {
   const usuarios = await Usuario.findAll();
@@ -13,17 +14,19 @@ exports.getById = async (req, res) => {
 };
 
 exports.createUsuario = async (req, res) => {
-  const usuarioCadastrado = await Usuario.findOne({
-    where: { cpf: req.body.cpf },
-  });
-  //verificacao duplicidade de usuario cadastrado
-  if (usuarioCadastrado) {
-    return res.send("Já existe um usuário cadastrado neste CPF!");
-  }
-  const usuarioCriado = await Usuario.create(req.body);
-  console.log("Um novo usuário foi criado!", usuarioCriado);
-  return res.send("Usuário cadastrado com sucesso!");
-  //res.json(usuarios)
+  const usuarioCadastrado = await Usuario.findOne({ where: {cpf : req.body.cpf}});
+    if (usuarioCadastrado) {
+        return res.send('Já existe um usuário cadastrado neste CPF.')
+    }
+    const usuarioCriado = await Usuario.create(req.body);
+    if (usuarioCriado.idUsuarios && req.body.Turmas_idTurmas){
+        await UsuariosTurmas.create({
+            Turmas_idTurmas: req.body.Turmas_idTurmas,
+            Usuarios_idUsuarios: usuarioCriado.idUsuarios,
+        })
+    }
+    console.log("usuarioCriado", usuarioCriado);
+    return res.send("Usuário criado com sucesso");
 };
 
 exports.updateUsuario = async (req, res) => {
@@ -62,20 +65,22 @@ exports.updateUsuario = async (req, res) => {
 };
 
 exports.deleteUsuario = async (req, res) => {
-  try{
-    const {id} = req.params;
+  try {
+    const { id } = req.params;
     const usuario = await Usuario.findByPk(id);
-    if(!usuario){
+    if (!usuario) {
       return res.status(404).send("Usuário não encontrado");
     }
-    const desvincular = await UsuariosTurmas.findOnde({where:{Usuarios_idUsuarios: usuario.idUsuarios}})
+    const desvincular = await UsuariosTurmas.findOne({
+      where: { Usuarios_idUsuarios: usuario.idUsuarios },
+    });
     if (desvincular) {
       await desvincular.destroy();
     }
-    await Usuario.destroy();
+    await usuario.destroy();
 
     return res.send("Usuário deletado com sucesso");
-  } catch(error) { 
+  } catch (error) {
     console.error("Erro ao deletar usuário:", error);
     return res.status(500).send("Erro ao deletar usuário");
   }
