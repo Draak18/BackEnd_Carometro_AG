@@ -35,4 +35,8 @@ router.put("/usuario/:cpf", usuarioController.updateUsuarios)
 router.get('/turmas/:id', turmasController.getById) */
 /* router.get('/usuario', usuarioController.listarUsuarios) */
 
+
+//usuarios DELETE
+router.delete("/usuario/:id", usuarioController.deleteUsuario)
+
 module.exports = router;

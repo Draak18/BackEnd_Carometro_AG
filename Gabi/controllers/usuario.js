@@ -71,11 +71,11 @@ exports.deleteUsuario = async (req, res) => {
     if(!usuario){
       return res.status(404).send("Usuário não encontrado");
     }
-    const desvincular = await UsuariosTurmas.findOnde({where:{Usuarios_idUsuarios: usuario.idUsuarios}})
+    const desvincular = await UsuariosTurmas.findOne({where:{Usuarios_idUsuarios: usuario.idUsuarios}})
     if (desvincular) {
       await desvincular.destroy();
     }
-    await Usuario.destroy();
+    await usuario.destroy();
 
     return res.send("Usuário deletado com sucesso");
   } catch(error) { 
