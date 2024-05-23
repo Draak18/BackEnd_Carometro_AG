@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const usuarioController = require("../controllers/usuario");
 const turmasController = require("../controllers/turmas");
+const TypeUser = require("../controllers/tiposUsuarios");
 
 //                    USUARIOS
 //USUARIOS : GET => Pega informações da tabela usuarios

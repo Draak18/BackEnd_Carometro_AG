@@ -1,5 +1,4 @@
 // Inicializa o sequelize
-
 const Sequelize = require("sequelize");
 const databaseConfig = require("./database");
 
